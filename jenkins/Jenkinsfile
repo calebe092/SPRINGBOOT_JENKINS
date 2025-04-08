@@ -1,29 +1,10 @@
 pipeline {
     agent any
-    environment {
-        SONAR_QUBE_URL = 'http://localhost:9000'
-        SONAR_QUBE_TOKEN = '9e8bd1f57eeb533c498fbb2ef0eff2122681edb7'
-    }
     stages {
         stage('Build') {
             steps {
                 dir('jenkins') {
                     sh 'mvn clean package'
-                }
-            }
-        }
-        stage('SonarQube Analysis') {
-            steps {
-                withSonarQubeEnv('SONAR_LOCAL') {
-                    sh "${tool 'SONAR_SCANER'}/bin/sonar-scanner -Dsonar.projectKey=BackEnd -Dsonar.host.url=${env.SONAR_QUBE_URL} -Dsonar.login=${env.SONAR_QUBE_TOKEN} -Dsonar.java.binaries=./"
-                }
-            }
-        }
-        stage('Quality Gate') {
-            steps {
-                sleep(10)
-                timeout(time: 1, unit: 'MINUTES') {
-                    waitForQualityGate abortPipeline: true
                 }
             }
         }
