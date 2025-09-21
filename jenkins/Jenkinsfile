@@ -11,7 +11,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    dockerapp = docker.build("docjv/jenkins_api:${env.BUILD_ID}", '-f jenkins/Dockerfile jenkins/')
+                    dockerapp = docker.build("devcalebe/jenkis_api:${env.BUILD_ID}", '-f jenkins/Dockerfile jenkins/')
                 }
             }
         }
